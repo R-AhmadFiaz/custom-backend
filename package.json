@@ -1,0 +1,30 @@
+{
+  "name": "custombackend",
+  "version": "1.0.0",
+  "description": "A backend for learning important concepts",
+  "keywords": [
+    "javascript",
+    "backend",
+    "typescript"
+  ],
+  "homepage": "https://github.com/R-AhmadFiaz/custom-backend#readme",
+  "bugs": {
+    "url": "https://github.com/R-AhmadFiaz/custom-backend/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/R-AhmadFiaz/custom-backend.git"
+  },
+  "license": "ISC",
+  "author": "Rana Ahmad Fiaz",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tsx watch src/index.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^26.2.0",
+    "prettier": "^3.9.6",
+    "typescript": "^7.0.2"
+  }
+}
