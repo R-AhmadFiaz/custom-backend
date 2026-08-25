@@ -1,13 +1,24 @@
+import 'dotenv/config';
 import connectdb from "./db/database.js";
-
-console.log(connectdb);
-
+import {app} from './app.js';
 
 
 
+connectdb()
+.then(() => {
+const server = app.listen(process.env.PORT || 3000, () => {
+    console.log(`Server is listening on ${process.env.PORT}`);
+    
+}) 
 
-
-
+server.on('error', (error: Error) => {
+    console.error('Error in index.ts on(): ',error);
+    
+})})
+.catch((error) => {
+    console.log('Error in indexJS catch: ',error);
+    
+})
 
 
 
