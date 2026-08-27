@@ -11,3 +11,8 @@ meanwhile organize every file separately and make index.ts main file and import 
 
 
 i used npm packages named cookie-parser and cors and import it in app.ts to configure them with understanding about CORS concept 
+
+
+i created wrapper functions for express routing so i would not need to write callback functions again and again for routing.
+
+to make the error response standard i used Error class and create my custome class and make standard reponse when ever error come.
