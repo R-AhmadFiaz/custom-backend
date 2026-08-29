@@ -19,3 +19,8 @@ to make the error response standard i used Error class and create my custome cla
 
 
 i created the data model of user and video table because they are very related to each other i also used jwt and bcrypt library in user model to hash the password and created access and refresh tokens and sign the signature to them its not in consition to work and thats absolute because this time i am only learning the concepts and coding is not start yet my whole concentratrion is mostly in understanding the depth i have not reached coding its been 1 week i am still working on liberaries data modeling setup tyepscript and debugging
+
+
+i debug my previous code on user.model.ts because i am using typescript for my project which create new challenges and its important to look at them and solve.meanwhile i created file upload utility using cloudinary and make code as efficient as possible using try catch and async await
+
+i created first middleware using multer in separate file name multer.middleware.ts
