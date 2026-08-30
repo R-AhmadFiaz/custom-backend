@@ -15,10 +15,10 @@
 
 // promise method
 
-// const asyncHandler = (reqHandler) => {
-//     return (req, res, next) => {
-//         Promise.resolve(reqHandler(req, res, next) => {
+import {type Response, type Request, type NextFunction } from "express"
 
-//         }).catch((error) => {next(error)})
-//     }
-// }
+const asyncHandler = (reqHandler:( req: Request, res: Response, next: NextFunction ) =>  Promise<any>) => {
+    return (req: Request, res: Response, next: NextFunction) => {
+        Promise.resolve(reqHandler(req, res, next)).catch((error) => {next(error)})
+    }
+}
