@@ -24,3 +24,5 @@ i created the data model of user and video table because they are very related t
 i debug my previous code on user.model.ts because i am using typescript for my project which create new challenges and its important to look at them and solve.meanwhile i created file upload utility using cloudinary and make code as efficient as possible using try catch and async await
 
 i created first middleware using multer in separate file name multer.middleware.ts
+
+Today I worked on the user registration flow by creating the registration controller and route, connecting the async handler middleware, adding Multer for avatar and cover image uploads, and integrating Cloudinary to upload images and save their URLs with the user data in MongoDB. I also practiced handling req.body, req.files, TypeScript types, optional values, and async/await.
