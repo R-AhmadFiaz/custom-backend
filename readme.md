@@ -28,3 +28,5 @@ i created first middleware using multer in separate file name multer.middleware.
 Today I worked on the user registration flow by creating the registration controller and route, connecting the async handler middleware, adding Multer for avatar and cover image uploads, and integrating Cloudinary to upload images and save their URLs with the user data in MongoDB. I also practiced handling req.body, req.files, TypeScript types, optional values, and async/await.
 
 i have made the login user controller and used the efficient and safe approach to avoid code crash  and generate response by creating another class of apiResponse that will be standard for my response while preventing password and refresh token in respnse 
+
+i build logout controller for user by accessing its access token and verify it by signature of jwt and then remove refresh token and log out the user

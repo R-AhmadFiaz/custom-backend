@@ -3,6 +3,7 @@ import { apiError } from "../utils/apiError.js";
 import { User } from "../model/user.model.js";
 import { uploadOnCloudinary } from "../utils/fileUpload.js";
 import { apiResponse } from "../utils/apiResponse.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
 
 const registerUser = async (req: Request, res: Response ) => {
 
@@ -180,10 +181,41 @@ const loginUser = async (req: Request, res: Response ) => {
 }
 
 
-const logout = async(req: Request, res: Response) => {
+const loggoutUser = async(req: Request, res: Response) => {
 
+    const user = req.user
+
+    const updatedUser = await User.findByIdAndUpdate(
+        req.user._id,
+        { 
+            $set: {refreshToken: undefined}
+        },
+        {new: true}
+
+
+    )
+
+    const options = {
+        httpOnly: true,
+        secure: true
+    } 
+
+    res.status(200)
+    .clearCookie('accessToken', options)
+    .clearCookie('refreshToken',options)
     
+    .json(
+
+        new apiResponse(200,{},'loggedOut Successfully')
+
+    )
+
+
+
+
+
+
 }
 
 
-export {registerUser, loginUser, logout}
+export {registerUser, loginUser, loggoutUser}
