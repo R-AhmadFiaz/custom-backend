@@ -180,6 +180,10 @@ const loginUser = async (req: Request, res: Response ) => {
 }
 
 
+const logout = async(req: Request, res: Response) => {
+
+    
+}
 
 
-export {registerUser,loginUser}
+export {registerUser, loginUser, logout}
