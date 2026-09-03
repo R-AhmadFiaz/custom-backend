@@ -30,3 +30,6 @@ Today I worked on the user registration flow by creating the registration contro
 i have made the login user controller and used the efficient and safe approach to avoid code crash  and generate response by creating another class of apiResponse that will be standard for my response while preventing password and refresh token in respnse 
 
 i build logout controller for user by accessing its access token and verify it by signature of jwt and then remove refresh token and log out the user
+
+
+i have made the controller that will take incomming token and verify the token with secret server have if its ligit then it will compare the refresh token with its saved one in database if that match it will assign the token while making sure nothing crash using error handeling

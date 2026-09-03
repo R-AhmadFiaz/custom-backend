@@ -4,6 +4,7 @@ import { User } from "../model/user.model.js";
 import { uploadOnCloudinary } from "../utils/fileUpload.js";
 import { apiResponse } from "../utils/apiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
+import Jwt  from "jsonwebtoken";
 
 const registerUser = async (req: Request, res: Response ) => {
 
@@ -121,7 +122,7 @@ const loginUser = async (req: Request, res: Response ) => {
 
     const {username, email, password} = req.body
 
-    if (!username || !email) {
+    if (!(username || email)) {
         throw new apiError(400, 'Required Every Field')
     }
 
@@ -217,5 +218,49 @@ const loggoutUser = async(req: Request, res: Response) => {
 
 }
 
+const refreshAccessToken = async (req: Request, res: Response) => {
 
-export {registerUser, loginUser, loggoutUser}
+    const incommingToken = req.cookies?.refreshToken || req.body?.refreshToken;
+
+
+    if (!incommingToken) {
+        throw new apiError(404, 'No refresh token provided')
+    }
+    
+    const decodedToken = jwt.verify(incommingToken, process.env.REFRESH_TOKEN_SECRET)
+
+    const user = await User.findById(decodedToken._id)
+
+    if (!user) {
+        throw new apiError(404, 'No matched User Found!')
+    }
+
+
+
+    if (incommingToken !== user.refreshToken) {
+        throw new apiError(404, 'Cant give Access')
+    }
+
+    const {accessToken, refreshToken} = await generateAcessAndRefreshToken(user)
+
+    const options = {
+        httpOnly: true,
+        secure: true
+    }
+
+    res.status(200)
+    .cookie("accessToken", accessToken, options)
+    .cookie("refreshToken", refreshToken, options)
+    .json(
+        new apiResponse (
+        200,
+        {},
+        'successfully assigned new Access token' )
+    )
+
+
+    
+}
+
+
+export {registerUser, loginUser, loggoutUser, refreshAccessToken}
