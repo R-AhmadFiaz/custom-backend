@@ -5,6 +5,7 @@ import { uploadOnCloudinary } from "../utils/fileUpload.js";
 import { apiResponse } from "../utils/apiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import Jwt  from "jsonwebtoken";
+import type strict from "node:assert/strict";
 
 const registerUser = async (req: Request, res: Response ) => {
 
@@ -227,7 +228,7 @@ const refreshAccessToken = async (req: Request, res: Response) => {
         throw new apiError(404, 'No refresh token provided')
     }
     
-    const decodedToken = jwt.verify(incommingToken, process.env.REFRESH_TOKEN_SECRET)
+    const decodedToken = Jwt.verify(incommingToken, process.env.REFRESH_TOKEN_SECRET!) as Jwt.JwtPayload & {_id: string} 
 
     const user = await User.findById(decodedToken._id)
 
@@ -263,4 +264,35 @@ const refreshAccessToken = async (req: Request, res: Response) => {
 }
 
 
-export {registerUser, loginUser, loggoutUser, refreshAccessToken}
+const changeUserPassword = async (req: Request, res: Response) => {
+
+
+    const {oldPassword, newPassword} = req.body
+
+    const user = await User.findById(req.user?._id)
+
+    
+    if (!user) {
+        throw new apiError(404, 'User not Found')
+    }
+
+    const isCorrect = await user.isPasswordCorrect(oldPassword)
+
+    if (!isCorrect) {
+        throw new apiError(401, 'Password is incorrect')
+    }
+
+    user.password = newPassword
+
+    await user.save({validateBeforeSave: false})
+
+
+
+}
+
+
+
+
+
+
+export {registerUser, loginUser, loggoutUser, refreshAccessToken, changeUserPassword}
