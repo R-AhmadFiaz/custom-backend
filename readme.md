@@ -33,3 +33,7 @@ i build logout controller for user by accessing its access token and verify it b
 
 
 i have made the controller that will take incomming token and verify the token with secret server have if its ligit then it will compare the refresh token with its saved one in database if that match it will assign the token while making sure nothing crash using error handeling
+
+i have build controller that change the password by using verifyjwt middleware and provide the user details through request.i also make controller for fetching the current user.another controller name updateAccountDetail that get the data from req.body and verify the user than update his information with new one
+
+i build controller that could change the avatar and coverImage 

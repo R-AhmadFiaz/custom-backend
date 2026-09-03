@@ -286,13 +286,150 @@ const changeUserPassword = async (req: Request, res: Response) => {
 
     await user.save({validateBeforeSave: false})
 
+    return res.status(200)
+    .json(
+        new apiResponse(
+            200,
+            {},
+            'Password Changed Successfully'
+        )
+    )
+
+
+
+}
+
+const getCurrentUser = async (req: Request, res: Response) => {
+
+    return res.status(200)
+    .json(
+        new apiResponse(
+            200,  
+            {user: req.user},
+            'User fetched Successfully'
+        )
+    )
+
+    
+}
+
+const updateAccountDetails = async (req: Request, res: Response) => {
+    const {fullname, email} = req.body
+
+    if (!fullname && !email) {
+        throw new apiError(401, "Atleast One field is required");
+        
+    }
+
+    if(fullname)    req.user.fullname = fullname
+    if(email)       req.user.email = email
+
+//  await User.findByIdAndUpdate(
+//         req.user?._id,
+//         {
+//            $set:{                             // for if(!fullname || !email) condition when both are required
+//             fullname: fullname,
+//             email: email
+//            }
+//         },
+//         {new: true}
+
+//     )
+
+
+await req.user.save({validateBeforeSave: false})
+
+
+const updatedUser = await User.findById(req.user?._id).select("-password")
+
+return res.status(200).json(
+    new apiResponse(
+        200,
+        {
+            user: updatedUser
+        },
+        'User Account Updated Successfully'
+    )
+)
+
 
 
 }
 
 
+const updateAvatar = async (req: Request, res: Response) => {
+
+    const avatarFilePath = req.file?.path;
+
+    if (!avatarFilePath) {
+        throw new apiError(400, 'New Avatar Picture is required')
+    }
+
+    const user = await User.findByIdAndUpdate(
+        req.user._id,
+        {
+            $set: {
+                avatar: avatarFilePath
+            }
+        },
+        {new: true}
+    )
+
+
+    return res.status(200)
+    .json(
+        new apiResponse(
+
+        200,
+        {
+            avatar: user.avatar
+        },
+        'Avatar is Changed Successfully'
+
+        )
+       
+    )
+    
+} 
+
+
+const updateCoverImage = async(req: Request, res: Response) => {
 
 
 
+    const coverImageFilePath = req.file?.path;
 
-export {registerUser, loginUser, loggoutUser, refreshAccessToken, changeUserPassword}
+    if (!coverImageFilePath) {
+        throw new apiError(400, 'New cover image Picture is required')
+    }
+
+    const user = await User.findByIdAndUpdate(
+        req.user._id,
+        {
+            $set: {
+                coverImage: coverImageFilePath
+            }
+        },
+        {new: true}
+    )
+
+
+    return res.status(200)
+    .json(
+        new apiResponse(
+
+        200,
+        {
+            coverImage: user.coverImage
+        },
+        'Cover Image is Changed Successfully'
+
+        )
+       
+    )
+    
+} 
+
+export {registerUser, loginUser, loggoutUser, refreshAccessToken,
+        changeUserPassword, getCurrentUser, updateAccountDetails,
+        updateAvatar, updateCoverImage}
